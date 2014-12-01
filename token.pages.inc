@@ -70,7 +70,7 @@ function theme_tree_table($variables) {
   }
   drupal_render($attached);
   // ToDo: Use render arrays. See https://drupal.org/node/2195739
-  return _theme('table', $variables);
+  return \Drupal::theme()->render('table', $variables);
 }
 
 /**
@@ -80,7 +80,7 @@ function theme_tree_table($variables) {
  */
 function theme_token_tree($variables) {
   if (!empty($variables['dialog'])) {
-    return _theme('token_tree_link', $variables);
+    return \Drupal::theme()->render('token_tree_link', $variables);
   }
 
   $token_types = $variables['token_types'];

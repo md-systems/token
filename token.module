@@ -137,6 +137,7 @@ function token_theme() {
       'empty' => '',
       'caption' => '',
     ),
+    'function' => 'theme_tree_table',
     'file' => 'token.pages.inc',
   );
   $info['token_tree'] = array(
@@ -148,6 +149,7 @@ function token_theme() {
       'recursion_limit' => 3,
       'dialog' => FALSE,
     ),
+    'function' => 'theme_token_tree',
     'file' => 'token.pages.inc',
   );
   $info['token_tree_link'] = array(
@@ -156,6 +158,7 @@ function token_theme() {
       'options' => array(),
       'dialog' => TRUE,
     ),
+    'function' => 'theme_token_tree_link',
     'file' => 'token.pages.inc',
   );
 
