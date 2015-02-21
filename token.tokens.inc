@@ -697,9 +697,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
           $replacements[$original] = $sanitize ? $title : String::decodeEntities($title);
           break;
         case 'url':
-          // Strip the query string from the result of Request::getUri().
-          list($uri) = explode('?', \Drupal::request()->getUri());
-          $replacements[$original] = Url::fromUri($uri, $url_options)->toString();
+          $replacements[$original] = Url::fromRoute('<current>', [], $url_options)->toString();
           break;
         case 'page-number':
           if ($page = \Drupal::request()->query->get('page')) {
@@ -715,7 +713,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
     // @deprecated
     // [current-page:arg] dynamic tokens.
     if ($arg_tokens = \Drupal::token()->findWithPrefix($tokens, 'arg')) {
-      $path = \Drupal::request()->attributes->get('_system_path');
+      $path = ltrim(\Drupal::service('path.current')->getPath(), '/');
       // Make sure its a system path.
       $path = \Drupal::service('path.alias_manager')->getPathByAlias($path);
       foreach ($arg_tokens as $name => $original) {
@@ -735,15 +733,14 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
           $replacements[$original] = $sanitize ? String::checkPlain($value) : $value;
         }
         elseif ($name == 'q') {
-          $replacements[$original] = \Drupal::request()->attributes->get('_system_path');
+          $replacements[$original] = ltrim(\Drupal::service('path.current')->getPath(), '/');
         }
       }
     }
 
     // Chained token relationships.
     if ($url_tokens = \Drupal::token()->findWithPrefix($tokens, 'url')) {
-      $request = \Drupal::request();
-      $url = new Url($request->attributes->get(RouteObjectInterface::ROUTE_OBJECT), $request->attributes->get('_raw_variables')->all());
+      $url = Url::fromRoute('<current>');
       $replacements += \Drupal::token()->generate('url', $url_tokens, array('url' => $url), $options);
     }
   }
