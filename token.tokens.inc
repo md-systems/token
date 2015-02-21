@@ -732,9 +732,6 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
           $value = \Drupal::request()->query->get($name);
           $replacements[$original] = $sanitize ? String::checkPlain($value) : $value;
         }
-        elseif ($name == 'q') {
-          $replacements[$original] = ltrim(\Drupal::service('path.current')->getPath(), '/');
-        }
       }
     }
 
