@@ -399,7 +399,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
     $date_format_types = \Drupal::entityManager()->getStorage('date_format')->loadMultiple();
     foreach ($tokens as $name => $original) {
       if (isset($date_format_types[$name]) && _token_module('date', $name) == 'token') {
-        $replacements[$original] = format_date($date, $name, '', NULL, $language_code);
+        $replacements[$original] = format_date($date, $name, '', NULL, $langcode);
       }
     }
   }
