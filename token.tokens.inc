@@ -753,12 +753,12 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'path':
-          $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $language_code) : $path;
+          $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode) : $path;
           $replacements[$original] = $sanitize ? String::checkPlain($value) : $value;
           break;
         case 'alias':
           // @deprecated
-          $alias = \Drupal::service('path.alias_manager')->getAliasByPath($path, $language_code);
+          $alias = \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode);
           $replacements[$original] = $sanitize ? String::checkPlain($alias) : $alias;
           break;
         case 'absolute':
@@ -775,7 +775,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
           $replacements[$original] = $unaliased->setAbsolute()->setOption('alias', TRUE)->toString();
           break;
         case 'args':
-          $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $language_code) : $path;
+          $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode) : $path;
           $replacements[$original] = token_render_array(explode('/', $value), $options);
           break;
 
@@ -784,7 +784,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
 
     // [url:args:*] chained tokens.
     if ($arg_tokens = \Drupal::token()->findWithPrefix($tokens, 'args')) {
-      $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $language_code) : $path;
+      $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode) : $path;
       $replacements += \Drupal::token()->generate('array', $arg_tokens, array('array' => explode('/', $value)), $options);
     }
 
