@@ -381,12 +381,12 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
   $replacements = array();
 
   $url_options = array('absolute' => TRUE);
-  if (isset($options['language'])) {
-    $url_options['language'] = $options['language'];
-    $language_code = $options['language']->language;
+  if (isset($options['langcode'])) {
+    $url_options['language'] = language_load($options['langcode']);
+    $langcode = $options['langcode'];
   }
   else {
-    $language_code = NULL;
+    $langcode = NULL;
   }
 
   $sanitize = !empty($options['sanitize']);
@@ -1046,12 +1046,12 @@ function menu_ui_tokens($type, $tokens, array $data = array(), array $options = 
   $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
 
   $url_options = array('absolute' => TRUE);
-  if (isset($options['language'])) {
-    $url_options['language'] = $options['language'];
-    $language_code = $options['language']->getId();
+  if (isset($options['langcode'])) {
+    $url_options['language'] = language_load($options['langcode']);
+    $langcode = $options['langcode'];
   }
   else {
-    $language_code = NULL;
+    $langcode = NULL;
   }
 
   $sanitize = !empty($options['sanitize']);
@@ -1242,7 +1242,7 @@ function _token_field_label($entity_type, $field_name) {
 function field_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
   $sanitize = !empty($options['sanitize']);
-  $langcode = isset($options['language']) ? $options['language']->language : NULL;
+  $langcode = isset($options['langcode']) ? $options['langcode'] : NULL;
 
   // Entity tokens.
   if ($type == 'entity' && !empty($data['entity_type']) && !empty($data['entity']) && !empty($data['token_type'])) {
