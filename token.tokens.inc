@@ -584,7 +584,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
               '#theme' => 'user_picture',
               '#account' => $account,
             ];
-            $replacements[$original] = $renderer->render($output);
+            $replacements[$original] = $renderer->renderPlain($output);
           }
           break;
 
@@ -844,16 +844,19 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
     $sort = isset($options['array sort']) ? $options['array sort'] : TRUE;
     $keys = token_element_children($array, $sort);
 
+    /** @var \Drupal\Core\Render\RendererInterface $renderer */
+    $renderer = \Drupal::service('renderer');
+
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'first':
           $value = $array[$keys[0]];
-          $value = is_array($value) ? render($value) : (string) $value;
+          $value = is_array($value) ? $renderer->renderPlain($value) : (string) $value;
           $replacements[$original] = $sanitize ? SafeMarkup::checkPlain($value) : $value;
           break;
         case 'last':
           $value = $array[$keys[count($keys) - 1]];
-          $value = is_array($value) ? render($value) : (string) $value;
+          $value = is_array($value) ? $renderer->renderPlain($value) : (string) $value;
           $replacements[$original] = $sanitize ? SafeMarkup::checkPlain($value) : $value;
           break;
         case 'count':
