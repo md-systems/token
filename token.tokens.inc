@@ -748,7 +748,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
     $url = $data['url'];
     // To retrieve the correct path, modify a copy of the Url object.
     $path_url = clone $url;
-    $path = $path_url->setAbsolute(FALSE)->setOption('fragment', NULL)->getInternalPath();
+    $path = '/' . $path_url->setAbsolute(FALSE)->setOption('fragment', NULL)->getInternalPath();
 
     foreach ($tokens as $name => $original) {
       switch ($name) {
@@ -867,7 +867,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
           $replacements[$original] = token_render_array($reversed, $options);
           break;
         case 'join':
-          $replacements[$original] = token_render_array($array, array('join' => '') + $options);
+          $replacements[$original] = token_render_array($array, array('join' => '/') + $options);
           break;
       }
     }
