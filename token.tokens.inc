@@ -785,7 +785,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
     // [url:args:*] chained tokens.
     if ($arg_tokens = \Drupal::token()->findWithPrefix($tokens, 'args')) {
       $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode) : $path;
-      $replacements += \Drupal::token()->generate('array', $arg_tokens, array('array' => explode('/', $value)), $options);
+      $replacements += \Drupal::token()->generate('array', $arg_tokens, array('array' => explode('/', ltrim($value, '/'))), $options);
     }
 
     // [url:unaliased:*] chained tokens.
@@ -867,7 +867,7 @@ function token_tokens($type, array $tokens, array $data = array(), array $option
           $replacements[$original] = token_render_array($reversed, $options);
           break;
         case 'join':
-          $replacements[$original] = token_render_array($array, array('join' => '/') + $options);
+          $replacements[$original] = token_render_array($array, array('join' => '') + $options);
           break;
       }
     }
