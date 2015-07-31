@@ -1247,6 +1247,8 @@ function field_tokens($type, $tokens, array $data = array(), array $options = ar
   $replacements = array();
   $langcode = isset($options['langcode']) ? $options['langcode'] : NULL;
 
+  $renderer = \Drupal::service('renderer');
+
   // Entity tokens.
   if ($type == 'entity' && !empty($data['entity_type']) && !empty($data['entity']) && !empty($data['token_type'])) {
     // The field API does weird stuff to the entity, so let's clone it.
@@ -1273,7 +1275,7 @@ function field_tokens($type, $tokens, array $data = array(), array $options = ar
         $field_output = $entity->$name->view('token');
         $field_output['#token_options'] = $options;
         $field_output['#pre_render'][] = 'token_pre_render_field_token';
-        $replacements[$original] = drupal_render($field_output);
+        $replacements[$original] = $renderer->renderPlain($field_output);
       }
     }
 
